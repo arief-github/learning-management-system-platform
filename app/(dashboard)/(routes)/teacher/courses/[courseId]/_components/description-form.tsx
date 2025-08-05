@@ -14,11 +14,10 @@ import {cn} from "@/lib/utils";
 import {Textarea} from "@/components/ui/textarea";
 import {Spinner} from "@/components/ui/shadcn-io/spinner";
 import ButtonSubmit from "@/app/(dashboard)/_components/button-submit";
+import { Course } from '@prisma/client';
 
 interface DescriptionProps {
-    initialData: {
-        description: string
-    }
+    initialData: Course,
     courseId: string
 }
 
