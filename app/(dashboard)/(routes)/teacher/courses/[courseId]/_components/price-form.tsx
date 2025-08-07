@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { formatPrice } from "@/lib/format";
+import ButtonSubmit from "@/app/(dashboard)/_components/button-submit";
 
 interface PriceFormProps {
   initialData: Course;
@@ -28,7 +29,7 @@ interface PriceFormProps {
 };
 
 const formSchema = z.object({
-  price: z.number(),
+   price: z.coerce.number(),
 });
 
 export const PriceForm = ({
@@ -42,17 +43,18 @@ export const PriceForm = ({
   const router = useRouter();
 
   type FormValues = z.infer<typeof formSchema>;
+  type FormOutput = z.output<typeof formSchema>;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      price: initialData?.price ?? undefined,
+      price: initialData?.price ?? 0,
     },
   });
 
   const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: FormValues) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
       toast.success("Course updated");
@@ -114,12 +116,7 @@ export const PriceForm = ({
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button
-                disabled={!isValid || isSubmitting}
-                type="submit"
-              >
-                Save
-              </Button>
+              <ButtonSubmit isSubmitting={isSubmitting} isValid={isValid} />
             </div>
           </form>
         </Form>
