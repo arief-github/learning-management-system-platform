@@ -2,11 +2,13 @@ import {db} from "@/lib/db";
 import { auth } from '@clerk/nextjs'
 import {redirect} from "next/navigation";
 import {IconBadge} from "@/components/icon-badge";
-import {LayoutDashboard, ListChecks} from "lucide-react";
+import {CircleDollarSign, LayoutDashboard, ListChecks, File} from "lucide-react";
 import TitleForm from "./_components/title-form";
 import DescriptionForm from "./_components/description-form";
 import ImageForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/image-form";
 import { CategoryForm } from "./_components/category-form";
+import { PriceForm } from "./_components/price-form";
+import { AttachmentForm } from "./_components/attachment-form";
 
 const CourseIdPage = async ({ params }: {params: { courseId: string }}) => {
     // mengambil userId autentikasi dari auth next auth
@@ -20,7 +22,15 @@ const CourseIdPage = async ({ params }: {params: { courseId: string }}) => {
     // mengambil course berdasarkan id melalui params
     const course = await db.course.findUnique({
         where: {
-            id: params.courseId
+            id: params.courseId,
+            userId
+        },
+        include: {
+            attachments: {
+                orderBy: {
+                    createdAt: 'asc'
+                }
+            }
         }
     });
 
@@ -93,6 +103,21 @@ const CourseIdPage = async ({ params }: {params: { courseId: string }}) => {
                         <div>
                             TODO: Chapters
                         </div>
+                        <div className="flex items-center gap-x-2">
+                            <IconBadge size='sm' icon={CircleDollarSign} />
+                            <h2 className='text-xl'>
+                                Course Pricing
+                            </h2>
+                        </div>
+                        <PriceForm initialData={course} courseId={course.id} />
+                        
+                        <div className="flex items-center gap-x-2">
+                            <IconBadge size='sm' icon={File} />
+                            <h2 className='text-xl'>
+                                Resources & Attachments
+                            </h2>
+                        </div>
+                        <AttachmentForm initialData={course} courseId={course.id} />
                     </div>
                 </div>
             </div>
