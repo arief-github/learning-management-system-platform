@@ -9,6 +9,7 @@ import ImageForm from "@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_co
 import { CategoryForm } from "./_components/category-form";
 import { PriceForm } from "./_components/price-form";
 import { AttachmentForm } from "./_components/attachment-form";
+import { ChapterForm } from "./_components/chapter-form";
 
 const CourseIdPage = async ({ params }: {params: { courseId: string }}) => {
     // mengambil userId autentikasi dari auth next auth
@@ -29,6 +30,11 @@ const CourseIdPage = async ({ params }: {params: { courseId: string }}) => {
             attachments: {
                 orderBy: {
                     createdAt: 'asc'
+                }
+            },
+            chapters: {
+                orderBy: {
+                    position: 'asc'
                 }
             }
         }
@@ -100,9 +106,7 @@ const CourseIdPage = async ({ params }: {params: { courseId: string }}) => {
                                 Course Chapters
                             </h2>
                         </div>
-                        <div>
-                            TODO: Chapters
-                        </div>
+                        <ChapterForm initialData={course} courseId={course.id} />
                         <div className="flex items-center gap-x-2">
                             <IconBadge size='sm' icon={CircleDollarSign} />
                             <h2 className='text-xl'>

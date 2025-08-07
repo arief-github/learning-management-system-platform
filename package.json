@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.31.8",
+    "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.2.1",
     "@prisma/client": "^6.13.0",
     "@radix-ui/react-dialog": "^1.1.14",
@@ -31,7 +32,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^5.5.3",
-    "zod": "^4.0.14"
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@types/node": "^20.19.9",
